@@ -1,26 +1,43 @@
 package org.usfirst.frc.team5050.robot.subsystems;
 
-import edu.wpi.first.wpilibj.*;
-import org.usfirst.frc.team5050.robot.commands.*;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-
-
 import org.usfirst.frc.team5050.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
 /**
  *
  */
-public class drivetrain extends Subsystem {
+public class drivetrain extends PIDSubsystem {
 	private DifferentialDrive drivetrain = new DifferentialDrive(RobotMap.left, RobotMap.right);
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	
-	
-	
-	@Override
+
+    // Initialize your subsystem here
+    public drivetrain() {
+        // Use these to get going:
+        // setSetpoint() -  Sets where the PID controller should move the system
+        //                  to
+        // enable() - Enables the PID controller.
+    	super("drivetrain", .05,0,.002);
+    	getPIDController().setContinuous(false);
+    	setAbsoluteTolerance(.05);
+    }
+
     public void initDefaultCommand() {
-        setDefaultCommand(new ArcadeDrive());
+        // Set the default command for a subsystem here.
+        //setDefaultCommand(new MySpecialCommand());
+    }
+
+    protected double returnPIDInput() {
+        // Return your input value for the PID loop
+        // e.g. a sensor, like a potentiometer:
+        // yourPot.getAverageVoltage() / kYourMaxVoltage;
+        return 0.0;
+    }
+
+    protected void usePIDOutput(double output) {
+        // Use output to drive your system, like a motor
+        // e.g. yourMotor.set(output);
     }
     
 	public void TeleopDrive(Joystick driver) {
@@ -31,4 +48,5 @@ public class drivetrain extends Subsystem {
 		drivetrain.arcadeDrive(0, 0);
 	}
 }
+
 
